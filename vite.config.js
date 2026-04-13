@@ -3,5 +3,15 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/ETCCore/',   // GitHub Pages repo name
+  base: '/ETCCore-Docs/',
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'syntax-highlighter': ['react-syntax-highlighter'],
+        },
+      },
+    },
+  },
 })

@@ -1,6 +1,6 @@
-# ETCCore Docs
+# ETC-Minecraft Docs
 
-Documentación oficial de **ETCCore**, un plugin de Minecraft desarrollado para servidores Folia/Paper.
+Documentación oficial de los proyectos **ETC-Minecraft** — organización de plugins y herramientas para servidores Minecraft Folia/Paper. Incluye **ETCCore**, **ETCRegionGenerator** y más.
 
 Construido con [React](https://react.dev/) + [Vite](https://vitejs.dev/) + [Tailwind CSS](https://tailwindcss.com/).
 

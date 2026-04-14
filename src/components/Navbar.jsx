@@ -6,7 +6,7 @@ export default function Navbar() {
       <div className="flex items-center justify-between px-6 py-3 max-w-7xl mx-auto">
         <Link to="/" className="flex items-center gap-2 font-bold text-lg text-white">
           <span className="text-brand-400">⬡</span>
-          <span>ETCCore</span>
+          <span>ETC-Minecraft</span>
           <span className="text-xs text-zinc-500 font-normal">Docs</span>
         </Link>
         <nav className="flex items-center gap-4 text-sm text-zinc-400">
@@ -18,7 +18,7 @@ export default function Navbar() {
             Descargar
           </a>
           <a
-            href="https://github.com/ETC-Minecraft/ETCCore"
+            href="https://github.com/ETC-Minecraft"
             target="_blank" rel="noreferrer"
             className="hover:text-white transition-colors"
           >

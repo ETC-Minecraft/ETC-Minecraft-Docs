@@ -10,7 +10,17 @@ const projects = [
     badge: '⬡',
   },
   {
-    name: 'ETCCore-Docs',
+    name: 'ETCRegionGenerator',
+    status: 'Activo',
+    statusColor: 'text-green-400',
+    type: 'Plugin · Paper / Folia',
+    description:
+      'Plugin para generación y gestión de regiones en servidores Minecraft. Automatiza la creación de zonas del mapa de forma controlada.',
+    repo: 'https://github.com/ETC-Minecraft/ETCRegionGenerator',
+    badge: '🗺️',
+  },
+  {
+    name: 'ETC-Minecraft Docs',
     status: 'Activo',
     statusColor: 'text-green-400',
     type: 'Documentación · React + Vite',
@@ -92,7 +102,7 @@ export default function Projects() {
       <div className="mt-10 p-5 bg-zinc-900 border border-zinc-800 rounded-xl">
         <h3 className="font-bold text-white mb-1">¿Quieres contribuir?</h3>
         <p className="text-sm text-zinc-400 mb-3">
-          ETCCore es open-source bajo licencia MIT. Pull requests, issues y sugerencias son bienvenidos.
+          Los plugins de ETC-Minecraft son open-source bajo licencia MIT. Pull requests, issues y sugerencias son bienvenidos.
         </p>
         <a
           href="https://github.com/ETC-Minecraft/ETCCore/issues/new/choose"

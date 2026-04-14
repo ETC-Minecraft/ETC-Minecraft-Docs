@@ -1,4 +1,4 @@
-import{j as e}from"./index-B_-vPkSX.js";import{C as t}from"./CodeBlock-EEFLniX_.js";import"./react-vendor-DD0BoVN6.js";import"./syntax-highlighter-CKvlAzMS.js";const r=`
+import{j as e}from"./index-C19X6LPe.js";import{C as t}from"./CodeBlock-DwdsdaXS.js";import"./react-vendor-DD0BoVN6.js";import"./syntax-highlighter-CKvlAzMS.js";const r=`
 # config.yml
 
 verbose-outputs: true

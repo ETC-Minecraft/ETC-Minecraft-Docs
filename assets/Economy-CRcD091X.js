@@ -1,4 +1,4 @@
-import{j as e}from"./index-B_-vPkSX.js";import{C as n}from"./CodeBlock-EEFLniX_.js";import"./react-vendor-DD0BoVN6.js";import"./syntax-highlighter-CKvlAzMS.js";const t=`
+import{j as e}from"./index-C19X6LPe.js";import{C as n}from"./CodeBlock-DwdsdaXS.js";import"./react-vendor-DD0BoVN6.js";import"./syntax-highlighter-CKvlAzMS.js";const t=`
 description: "Comprar el rango VIP por $500"
 actions:
   # 1. Verificar si ya tiene el rango

@@ -26,7 +26,7 @@ const projects = [
     type: 'Documentación · React + Vite',
     description:
       'Este sitio de documentación. Hecho con React 18, Vite 5 y TailwindCSS.',
-    repo: 'https://github.com/ETC-Minecraft/ETCCore-Docs',
+    repo: 'https://github.com/ETC-Minecraft/ETC-Minecraft-Docs',
     badge: '📄',
   },
   {

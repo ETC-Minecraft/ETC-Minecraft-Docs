@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const CATEGORIES = ['Todos', 'Plugins', 'Herramientas', 'Próximamente']
 
@@ -11,7 +12,7 @@ const projects = [
     description:
       'Plugin núcleo: comandos YAML, menús GUI, economía (Vault), variables por jugador, sistema de mute, protección de construcción y más.',
     repo: 'https://github.com/ETC-Minecraft/ETCCore',
-    docs: '/getting-started',
+    docs: '/etccore',
     badge: '⬡',
     tags: ['Java 21+', 'Paper', 'Folia', 'YAML', 'Vault'],
     featured: true,
@@ -24,7 +25,7 @@ const projects = [
     description:
       'Pre-generación de regiones `.mca` de forma concurrente y nativa en Folia. Sin lag, con pausa/reanudar, persistencia entre reinicios y barra de progreso en vivo.',
     repo: 'https://github.com/ETC-Minecraft/ETCRegionGenerator',
-    docs: null,
+    docs: '/etcregion-generator',
     badge: '🗺️',
     tags: ['Java 21+', 'Folia', 'Concurrente'],
     featured: true,
@@ -102,21 +103,24 @@ function ProjectCard({ p }) {
       </div>
 
       <div className="flex items-center gap-3 pt-1 border-t border-zinc-800">
-        {p.repo ? (
+        {p.docs ? (
+          <Link
+            to={p.docs}
+            className="text-xs text-brand-400 hover:text-brand-300 hover:underline transition-colors font-medium"
+          >
+            Documentación →
+          </Link>
+        ) : (
+          <span className="text-xs text-zinc-600 italic">Sin docs aún</span>
+        )}
+        {p.repo && (
           <a
             href={p.repo}
             target="_blank"
             rel="noreferrer"
-            className="text-xs text-brand-400 hover:text-brand-300 hover:underline transition-colors"
+            className="text-xs text-zinc-400 hover:text-white transition-colors"
           >
-            GitHub →
-          </a>
-        ) : (
-          <span className="text-xs text-zinc-600 italic">Sin repositorio aún</span>
-        )}
-        {p.docs && (
-          <a href={p.docs} className="text-xs text-zinc-400 hover:text-white transition-colors">
-            Documentación →
+            GitHub ↗
           </a>
         )}
       </div>

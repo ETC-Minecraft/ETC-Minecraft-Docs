@@ -1,4 +1,4 @@
-import{j as e}from"./index-tLS-NHUW.js";import{C as o}from"./CodeBlock-DDEf8jbJ.js";import"./react-vendor-DD0BoVN6.js";import"./syntax-highlighter-CyytDYit.js";const t=`
+import{j as e}from"./index-B_-vPkSX.js";import{C as o}from"./CodeBlock-EEFLniX_.js";import"./react-vendor-DD0BoVN6.js";import"./syntax-highlighter-CKvlAzMS.js";const t=`
 title: "&8⬛ &6&lMI MENÚ &8⬛"
 rows: 3             # 1–6 filas (9 slots por fila)
 permission: ""      # permiso necesario para abrirlo (vacío = libre)

@@ -1,4 +1,4 @@
-import{j as e}from"./index-ppYlufqy.js";import{C as a}from"./CodeBlock-W6GUEugg.js";import"./react-vendor--lVoH5OK.js";import"./syntax-highlighter-BZGa3jO2.js";const r=`
+import{j as e}from"./index-BOahBsPU.js";import{C as a}from"./CodeBlock-DHYq0Gm_.js";import"./react-vendor--lVoH5OK.js";import"./syntax-highlighter-BZGa3jO2.js";const r=`
 description: "Teletransporte al mundo survival"
 permission: ""
 console-allowed: false

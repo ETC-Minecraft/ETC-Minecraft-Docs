@@ -1,4 +1,4 @@
-import{j as e}from"./index-ppYlufqy.js";import{L as r}from"./react-vendor--lVoH5OK.js";import{C as a}from"./CodeBlock-W6GUEugg.js";import"./syntax-highlighter-BZGa3jO2.js";const t=`# plugins/ETCRegionGenerator/config.yml
+import{j as e}from"./index-BOahBsPU.js";import{L as r}from"./react-vendor--lVoH5OK.js";import{C as a}from"./CodeBlock-DHYq0Gm_.js";import"./syntax-highlighter-BZGa3jO2.js";const t=`# plugins/ETCRegionGenerator/config.yml
 
 generation:
   # Máximo de chunks generándose en paralelo.

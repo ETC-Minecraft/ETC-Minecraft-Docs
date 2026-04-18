@@ -11,7 +11,7 @@ export const NAV_PAGES = [
   // ETCCore
   { path: '/etccore',                   title: 'ETCCore — Inicio',            section: 'ETCCore',        keywords: 'etccore plugin paper folia comandos yaml menus gui' },
   { path: '/etccore/getting-started',   title: 'Instalación',                 section: 'ETCCore',        keywords: 'instalacion install jar descarga requisitos paper folia' },
-  { path: '/etccore/config',            title: 'config.yml',                  section: 'ETCCore',        keywords: 'config configuracion yml opciones auto-reload luckperms' },
+  { path: '/etccore/config',            title: 'Configuración',               section: 'ETCCore',        keywords: 'config configuracion yml on-join death-respawn teleport playtime auto-reload luckperms' },
   { path: '/etccore/changelog',         title: 'Changelog',                   section: 'ETCCore',        keywords: 'changelog cambios versiones historial' },
   { path: '/etccore/actions',           title: 'Acciones',                    section: 'ETCCore · Comandos YAML', keywords: 'acciones actions message broadcast console player title sound delay chance if condiciones' },
   { path: '/etccore/variables',         title: 'Variables & Placeholders',    section: 'ETCCore · Comandos YAML', keywords: 'variables placeholders var set add del input playerdata persistentes' },

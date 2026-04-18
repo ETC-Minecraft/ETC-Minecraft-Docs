@@ -61,6 +61,10 @@ export default function Actions() {
         el listado completo de nodos disponibles está en <Link to="/etccore/config" className="text-brand-400 hover:underline">Configuración → Permisos</Link>.
       </div>
 
+      <div className="mb-6 rounded-lg border border-zinc-800 bg-zinc-900/60 p-4 text-sm text-zinc-300">
+        También puedes reutilizar variables automáticas como <code className="text-brand-400">{'{var:playtime.human}'}</code> y placeholders como <code className="text-brand-400">%etccore_playtime_human%</code> para mostrar horas jugadas en mensajes, títulos o menús.
+      </div>
+
       <h2 className="text-2xl font-bold text-white mt-8 mb-4">Referencia de acciones</h2>
       <div className="space-y-2">
         {actions.map(a => (

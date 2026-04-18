@@ -23,8 +23,16 @@ actions:
   - "[MESSAGE] &7Tu Discord guardado: &f{var:nombre}"
 `
 
+const playtimeExample = `
+actions:
+  - "[MESSAGE] &7Llevas &f{var:playtime.human} &7jugados."
+  - "[IF var:playtime.hours>=5] [MESSAGE] &aYa superaste las 5 horas en el servidor."
+`
+
 const placeholders = [
   ['{var:nombre}',   'Valor de la variable "nombre" del jugador'],
+  ['{var:playtime.seconds}', 'Tiempo jugado sincronizado automáticamente en segundos'],
+  ['{var:playtime.human}', 'Tiempo jugado formateado, por ejemplo 2h 15m 4s'],
   ['{player}',       'Nombre del jugador'],
   ['{world}',        'Nombre del mundo'],
   ['{x} {y} {z}',   'Coordenadas enteras'],
@@ -64,6 +72,16 @@ export default function Variables() {
           </div>
         ))}
       </div>
+
+      <h2 className="text-xl font-bold text-white mt-10 mb-3">Playtime automático</h2>
+      <p className="text-zinc-400 mb-3">
+        ETCCore puede sincronizar automáticamente el tiempo jugado de cada jugador con <code className="text-brand-400">playtime.yml</code>.
+        Por defecto genera las variables <code className="text-brand-400">playtime.ticks</code>, <code className="text-brand-400">playtime.seconds</code>, <code className="text-brand-400">playtime.minutes</code>, <code className="text-brand-400">playtime.hours</code>, <code className="text-brand-400">playtime.days</code> y <code className="text-brand-400">playtime.human</code>.
+      </p>
+      <CodeBlock code={playtimeExample} title="usar playtime en acciones" />
+
+      <h3 className="text-white font-semibold mt-8 mb-2">Placeholders ETCCore para PlaceholderAPI</h3>
+      <CodeBlock title="PlaceholderAPI" code={`%etccore_playtime_ticks%\n%etccore_playtime_seconds%\n%etccore_playtime_human%`} />
 
       <div className="mt-8 p-4 bg-zinc-900 border border-zinc-700 rounded-lg">
         <p className="text-sm text-zinc-400">

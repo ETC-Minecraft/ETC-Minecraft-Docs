@@ -81,7 +81,7 @@ export default function Scheduled() {
 
       <h2 className="text-xl font-bold text-white mt-8 mb-3">Recarga</h2>
       <p className="text-zinc-400">
-        Las tareas se recargan con <code className="text-brand-400">/fccmds reload</code>.
+        Las tareas se recargan con <code className="text-brand-400">/etccore reload</code>.
         Las tareas activas se cancelan y se reinician con la nueva configuración.
       </p>
     </div>

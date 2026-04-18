@@ -72,7 +72,7 @@ export default function ETCCoreHome() {
           <li>Descarga el <code className="text-brand-400">.jar</code> y colócalo en <code className="text-brand-400">plugins/</code></li>
           <li>Inicia el servidor — se crea <code className="text-brand-400">plugins/ETCCore/</code> con ejemplos</li>
           <li>Edita o crea archivos <code className="text-brand-400">.yml</code> en <code className="text-brand-400">commands/</code> y <code className="text-brand-400">menus/</code></li>
-          <li>Usa <code className="text-brand-400">/fccmds reload</code> o deja que el auto-reload detecte los cambios</li>
+          <li>Usa <code className="text-brand-400">/etccore reload</code> o deja que el auto-reload detecte los cambios</li>
         </ol>
         <Link to="/etccore/getting-started" className="inline-block mt-3 text-sm text-brand-400 hover:underline">
           Ver guía completa →

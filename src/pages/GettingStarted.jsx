@@ -69,7 +69,7 @@ export default function GettingStarted() {
         </li>
         <li>Edita o crea archivos <code className="text-brand-400">.yml</code> según tus necesidades</li>
         <li>
-          Recarga con <code className="text-brand-400">/fccmds reload</code> — o activa el{' '}
+          Recarga con <code className="text-brand-400">/etccore reload</code> — o activa el{' '}
           <strong className="text-zinc-200">auto-reload</strong> en <code className="text-brand-400">config.yml</code> para detección automática
         </li>
       </ol>
@@ -98,8 +98,8 @@ export default function GettingStarted() {
           </thead>
           <tbody className="text-zinc-400">
             {[
-              ['/fccmds reload', 'Recarga comandos, menús, blocked-commands y chat-format'],
-              ['/fccmds onlinemode [true|false]', 'Cambia el modo online del servidor en caliente'],
+              ['/etccore reload', 'Recarga comandos, menús, blocked-commands y chat-format'],
+              ['/etccore onlinemode [true|false]', 'Cambia el modo online del servidor en caliente'],
               ['/enderchest [jugador]', 'Abre tu ender chest o el de otro jugador (online u offline)'],
               ['/invsee <jugador>', 'Ve y edita el inventario de un jugador online u offline'],
               ['/mute <jugador> [duración] [razón]', 'Silencia a un jugador • 30s, 5m, 2h, 1d, perm'],

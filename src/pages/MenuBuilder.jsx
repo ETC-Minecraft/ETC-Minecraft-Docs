@@ -528,7 +528,7 @@ export default function MenuBuilder() {
             <p className="text-white font-semibold mb-2">¿Cómo usarlo?</p>
             <ol className="list-decimal list-inside text-xs space-y-1">
               <li>Guarda el YAML en <code className="text-brand-400">plugins/ETCCore/menus/{menuName}.yml</code></li>
-              <li>Recarga con <code className="text-brand-400">/fccmds reload</code></li>
+              <li>Recarga con <code className="text-brand-400">/etccore reload</code></li>
               <li>Abre con la acción <code className="text-brand-400">[MENU] {menuName}</code></li>
             </ol>
           </div>

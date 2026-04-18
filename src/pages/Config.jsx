@@ -3,10 +3,10 @@ import CodeBlock from '../components/CodeBlock.jsx'
 const configYml = `
 # config.yml
 
-verbose-outputs: true
+verbose-outputs: false
 # Muestra mensajes de debug en consola al cargar comandos/menús.
 
-auto-reload: false
+auto-reload: true
 # Recarga automáticamente los YAML al detectar cambios en disco.
 # Usa con cuidado en producción.
 
@@ -18,17 +18,26 @@ log-commands: false
 # Guarda en plugins/ETCCore/logs/commands.log cada ejecución
 # de un comando personalizado (jugador, mundo, args, timestamp).
 
-build-protection: false
+build-protection: true
 # Evita que jugadores sin permiso construyan o rompan bloques.
 
 build-protection-message: "&cNo tienes permiso para construir aquí."
 # Mensaje al intentar construir sin permiso.
 
-item-protection: false
-# Evita que jugadores sin permiso usen ítems (clic derecho).
+item-protection: true
+# Evita que jugadores sin permiso tiren o recojan ítems.
 
 item-protection-message: "&cNo puedes usar este ítem."
 # Mensaje al intentar usar un ítem protegido.
+
+join-rules:
+  quitar-fly-default:
+    enabled: true
+    only-groups: ["default"]
+    delay-ticks: 20
+    always-actions:
+      - "[FLY:OFF]"
+    first-join-actions: []
 `
 
 const chatFmtYml = `
@@ -48,14 +57,44 @@ const sections = [
   {
     title: 'config.yml — opciones principales',
     rows: [
-      ['verbose-outputs', 'boolean', 'true', 'Mensajes de debug en consola al cargar YAMLs.'],
-      ['auto-reload', 'boolean', 'false', 'Recarga archivos automáticamente al detectar cambios.'],
+      ['verbose-outputs', 'boolean', 'false', 'Mensajes de debug en consola al cargar YAMLs.'],
+      ['auto-reload', 'boolean', 'true', 'Recarga archivos automáticamente al detectar cambios.'],
       ['update-checker', 'boolean', 'true', 'Notifica a OPs sobre nuevas versiones de ETCCore.'],
       ['log-commands', 'boolean', 'false', 'Registra cada ejecución en logs/commands.log.'],
-      ['build-protection', 'boolean', 'false', 'Bloquea construcción a jugadores sin permiso.'],
+      ['build-protection', 'boolean', 'true', 'Bloquea construcción a jugadores sin permiso.'],
       ['build-protection-message', 'string', '…', 'Mensaje al intentar construir sin permiso.'],
-      ['item-protection', 'boolean', 'false', 'Bloquea uso de ítems a jugadores sin permiso.'],
+      ['item-protection', 'boolean', 'true', 'Bloquea tirar y recoger ítems a jugadores sin permiso.'],
       ['item-protection-message', 'string', '…', 'Mensaje al intentar usar ítem protegido.'],
+    ],
+  },
+]
+
+const permissionGroups = [
+  {
+    title: 'Permisos fijos',
+    rows: [
+      ['etccore.admin', 'Administración, reload y avisos de actualización.'],
+      ['etccore.staff', 'Marca al jugador como staff para placeholders.'],
+      ['etccore.vanish', 'Usar /vanish y ver vanished en TAB.'],
+      ['etccore.enderchest', 'Abrir tu propio enderchest.'],
+      ['etccore.enderchest.others', 'Abrir el enderchest de otros jugadores.'],
+      ['etccore.invsee', 'Ver inventarios online.'],
+      ['etccore.invsee.offline', 'Ver inventarios offline.'],
+      ['etccore.build', 'Permite colocar y romper bloques.'],
+      ['etccore.build.bypass', 'Ignora protección de construcción e ítems.'],
+      ['etccore.items', 'Permite tirar y recoger ítems.'],
+      ['etccore.chat', 'Permite hablar por el chat.'],
+      ['etccore.mute', 'Permite usar /mute y /unmute.'],
+      ['etccore.cmdblock.bypass', 'Ignora blocked-commands.yml.'],
+    ],
+  },
+  {
+    title: 'Permisos dinámicos',
+    rows: [
+      ['etccore.commands.<nombre>', 'Se crea por cada comando YAML cargado.'],
+      ['etccore.menus.<nombre>', 'Se crea por cada menú cargado.'],
+      ['etccore.allow.<comando>', 'Permite un comando concreto en blocked-commands.yml.'],
+      ['permission: nodo.libre', 'Nodo personalizado que tú definas dentro de un comando YAML.'],
     ],
   },
 ]
@@ -113,22 +152,31 @@ export default function Config() {
       </p>
       <CodeBlock code={blockedYml} title="blocked-commands.yml" />
 
-      <h2 className="text-xl font-bold text-white mt-10 mb-3">Permisos</h2>
-      <div className="space-y-2">
-        {[
-          ['fccmds.admin', 'Acceso a /fccmds reload y notificaciones de actualización.'],
-          ['fccmds.invSee', 'Ver inventario de otros jugadores con /invsee.'],
-          ['fccmds.enderChest', 'Ver ender-chest de otros jugadores con /ec.'],
-          ['fccmds.mute', 'Mutear y desmutear jugadores con /mute.'],
-          ['fccmds.build', 'Permite construir cuando build-protection está habilitado.'],
-          ['fccmds.item', 'Permite usar ítems cuando item-protection está habilitado.'],
-        ].map(([perm, desc]) => (
-          <div key={perm} className="flex gap-4 border-b border-zinc-800 pb-2 text-sm">
-            <code className="text-brand-400 w-52 shrink-0">{perm}</code>
-            <span className="text-zinc-400">{desc}</span>
+      <h2 id="permisos-etccore" className="text-xl font-bold text-white mt-10 mb-3">Permisos</h2>
+      <p className="text-zinc-400 mb-4 text-sm">
+        ETCCore mezcla permisos fijos del plugin con nodos dinámicos creados desde comandos YAML, menús y reglas de bloqueo de comandos.
+      </p>
+      <div className="space-y-8">
+        {permissionGroups.map(group => (
+          <div key={group.title}>
+            <h3 className="text-white font-semibold mb-2">{group.title}</h3>
+            <div className="space-y-2">
+              {group.rows.map(([perm, desc]) => (
+                <div key={perm} className="flex gap-4 border-b border-zinc-800 pb-2 text-sm">
+                  <code className="text-brand-400 w-64 shrink-0">{perm}</code>
+                  <span className="text-zinc-400">{desc}</span>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
       </div>
+
+      <h3 className="text-white font-semibold mt-8 mb-2">Ejemplos rápidos de LuckPerms</h3>
+      <CodeBlock
+        title="LuckPerms"
+        code={`/lp group terricola permission set etccore.build true\n/lp group terricola permission set etccore.items true\n/lp group terricola permission set etccore.allow.lobby true\n/lp group default permission set etccore.commands.kit false\n/lp group vip permission set etccore.menus.tienda true`}
+      />
     </div>
   )
 }

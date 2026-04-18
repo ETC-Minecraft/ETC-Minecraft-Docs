@@ -1,4 +1,5 @@
 import CodeBlock from '../components/CodeBlock.jsx'
+import { Link } from 'react-router-dom'
 
 const actions = [
   { prefix: '[MESSAGE] texto',        desc: 'Envía un mensaje al jugador que ejecutó el comando. Soporta &colores.' },
@@ -6,6 +7,8 @@ const actions = [
   { prefix: '[CONSOLE] comando',      desc: 'Ejecuta un comando como consola.' },
   { prefix: '[PLAYER] comando',       desc: 'El jugador ejecuta un comando (sin barra).' },
   { prefix: '[ACTIONBAR] texto',      desc: 'Muestra texto en la barra de acción (encima del hotbar).' },
+  { prefix: '[FLY:ON]',               desc: 'Activa el vuelo del jugador forzando allowFlight y flying.' },
+  { prefix: '[FLY:OFF]',              desc: 'Desactiva el vuelo del jugador forzando allowFlight=false y flying=false.' },
   { prefix: '[TITLE] título;subtítulo', desc: 'Muestra un título en pantalla.' },
   { prefix: '[TITLE:fi:stay:fo] ...',  desc: 'Título con tiempos custom (ticks): fadeIn, stay, fadeOut.' },
   { prefix: '[SOUND] NOMBRE',         desc: 'Reproduce un sonido al jugador. Ej: ENTITY_ENDERMAN_TELEPORT' },
@@ -52,6 +55,11 @@ export default function Actions() {
         Las acciones se definen en la lista <code className="text-brand-400">actions:</code> de cada comando.
         Cada línea es una acción que se ejecuta en orden al usar el comando.
       </p>
+
+      <div className="mb-6 rounded-lg border border-zinc-800 bg-zinc-900/60 p-4 text-sm text-zinc-300">
+        Si vas a combinar acciones con permisos, grupos o reglas de entrada como <code className="text-brand-400">[FLY:OFF]</code>,
+        el listado completo de nodos disponibles está en <Link to="/etccore/config" className="text-brand-400 hover:underline">Configuración → Permisos</Link>.
+      </div>
 
       <h2 className="text-2xl font-bold text-white mt-8 mb-4">Referencia de acciones</h2>
       <div className="space-y-2">

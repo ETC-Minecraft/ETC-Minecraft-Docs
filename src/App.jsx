@@ -14,6 +14,7 @@ const Config = lazy(() => import('./pages/Config.jsx'))
 const Projects = lazy(() => import('./pages/Projects.jsx'))
 const Changelog = lazy(() => import('./pages/Changelog.jsx'))
 const ETCRegionGeneratorDocs = lazy(() => import('./pages/ETCRegionGeneratorDocs.jsx'))
+const ETCWorldsDocs = lazy(() => import('./pages/ETCWorldsDocs.jsx'))
 const YAMLPlayground = lazy(() => import('./pages/YAMLPlayground.jsx'))
 const MenuBuilder = lazy(() => import('./pages/MenuBuilder.jsx'))
 const ActionBuilder = lazy(() => import('./pages/ActionBuilder.jsx'))
@@ -44,6 +45,9 @@ export default function App() {
 
           {/* ETCRegionGenerator docs */}
           <Route path="etcregion-generator" element={<ETCRegionGeneratorDocs />} />
+
+          {/* ETCWorlds docs */}
+          <Route path="etcworlds" element={<ETCWorldsDocs />} />
 
           {/* Visual tools */}
           <Route path="tools">

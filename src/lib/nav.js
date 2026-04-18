@@ -22,6 +22,9 @@ export const NAV_PAGES = [
   // ETCRegionGenerator
   { path: '/etcregion-generator',       title: 'ETCRegionGenerator',          section: 'ETCRegionGenerator',     keywords: 'region generator folia chunks mca pre-generate concurrent pause resume' },
 
+  // ETCWorlds
+  { path: '/etcworlds',                 title: 'ETCWorlds',                   section: 'ETCWorlds',              keywords: 'etcworlds mundos worlds multiverso multiverse skyblock oneblock void plantilla template instance grupo group folia' },
+
   // Tools
   { path: '/playground',                title: '🧪 YAML Playground',         section: 'Herramientas',            keywords: 'playground yaml validador test probar comandos acciones' },
   { path: '/tools/menu-builder',        title: '🖥️ Menu Builder',            section: 'Herramientas',            keywords: 'menu builder visual gui inventario slots items yaml menus' },

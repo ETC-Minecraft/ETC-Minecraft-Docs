@@ -1,5 +1,55 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+
+/**
+ * Observa los h2 con los IDs dados y devuelve el hash (#id) del que
+ * está actualmente visible en pantalla. Sólo activo cuando pathname === targetPath.
+ */
+function useActiveHash(ids, targetPath) {
+  const { pathname } = useLocation()
+  const [activeHash, setActiveHash] = useState('')
+  const observerRef = useRef(null)
+
+  useEffect(() => {
+    if (pathname !== targetPath) {
+      setActiveHash('')
+      return
+    }
+    // Limpia observer anterior
+    observerRef.current?.disconnect()
+
+    const handler = (entries) => {
+      // Recoge todos los visibles y elige el más cercano al top
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)
+      if (visible.length > 0) {
+        setActiveHash('#' + visible[0].target.id)
+      }
+    }
+
+    const observer = new IntersectionObserver(handler, {
+      rootMargin: '-10% 0px -70% 0px',
+      threshold: 0,
+    })
+    observerRef.current = observer
+
+    // Pequeño delay por si el DOM todavía no montó la página
+    const timer = setTimeout(() => {
+      ids.forEach(id => {
+        const el = document.getElementById(id)
+        if (el) observer.observe(el)
+      })
+    }, 100)
+
+    return () => {
+      clearTimeout(timer)
+      observer.disconnect()
+    }
+  }, [pathname, targetPath, ids.join(',')])
+
+  return activeHash
+}
 
 function NavItem({ to, label, end = false, indent = false }) {
   return (
@@ -21,10 +71,11 @@ function NavItem({ to, label, end = false, indent = false }) {
   )
 }
 
-function AnchorNavItem({ to, hash, label, indent = false }) {
-  const { pathname, hash: currentHash } = useLocation()
+function AnchorNavItem({ to, hash, label, indent = false, activeHash }) {
+  const { pathname, hash: locationHash } = useLocation()
   const navigate = useNavigate()
-  const isActive = pathname === to && currentHash === hash
+  // Activo si coincide por scroll/observer O por hash de la URL
+  const isActive = pathname === to && (activeHash ? activeHash === hash : locationHash === hash)
 
   const handleClick = () => {
     const id = hash.slice(1)
@@ -109,6 +160,8 @@ export default function Sidebar({ onNavigate }) {
 
 export function SidebarContent({ onNavigate }) {
   const nav = onNavigate ?? (() => {})
+  const etcWorldsIds = ['templates','comandos','permisos','config','reglas','groups','pocketworlds','registry']
+  const activeEtcWorldsHash = useActiveHash(etcWorldsIds, '/etcworlds')
   return (
     <div className="pr-2">
       {/* General */}
@@ -156,14 +209,14 @@ export function SidebarContent({ onNavigate }) {
         <div onClick={nav}>
           <NavItem to="/etcworlds" label="Documentación" end />
           <SubHeader>Secciones</SubHeader>
-          <AnchorNavItem to="/etcworlds" hash="#templates"    label="Templates"        indent />
-          <AnchorNavItem to="/etcworlds" hash="#comandos"     label="Comandos"         indent />
-          <AnchorNavItem to="/etcworlds" hash="#permisos"     label="Permisos"         indent />
-          <AnchorNavItem to="/etcworlds" hash="#config"       label="config.yml"       indent />
-          <AnchorNavItem to="/etcworlds" hash="#reglas"       label="Reglas por mundo" indent />
-          <AnchorNavItem to="/etcworlds" hash="#groups"       label="World Groups"     indent />
-          <AnchorNavItem to="/etcworlds" hash="#pocketworlds" label="PocketWorlds"     indent />
-          <AnchorNavItem to="/etcworlds" hash="#registry"     label="Registry"         indent />
+          <AnchorNavItem to="/etcworlds" hash="#templates"    label="Templates"        indent activeHash={activeEtcWorldsHash} />
+          <AnchorNavItem to="/etcworlds" hash="#comandos"     label="Comandos"         indent activeHash={activeEtcWorldsHash} />
+          <AnchorNavItem to="/etcworlds" hash="#permisos"     label="Permisos"         indent activeHash={activeEtcWorldsHash} />
+          <AnchorNavItem to="/etcworlds" hash="#config"       label="config.yml"       indent activeHash={activeEtcWorldsHash} />
+          <AnchorNavItem to="/etcworlds" hash="#reglas"       label="Reglas por mundo" indent activeHash={activeEtcWorldsHash} />
+          <AnchorNavItem to="/etcworlds" hash="#groups"       label="World Groups"     indent activeHash={activeEtcWorldsHash} />
+          <AnchorNavItem to="/etcworlds" hash="#pocketworlds" label="PocketWorlds"     indent activeHash={activeEtcWorldsHash} />
+          <AnchorNavItem to="/etcworlds" hash="#registry"     label="Registry"         indent activeHash={activeEtcWorldsHash} />
         </div>
       </CollapsibleSection>
 

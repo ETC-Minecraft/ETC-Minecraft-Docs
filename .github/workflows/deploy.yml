@@ -1,8 +1,8 @@
 name: Deploy to GitHub Pages
 
+# Deshabilitado: el deploy se hace con "npm run deploy" (gh-pages → rama gh-pages).
+# Este workflow ya NO se dispara en push para evitar conflictos con gh-pages.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:

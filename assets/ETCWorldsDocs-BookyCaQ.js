@@ -1,4 +1,4 @@
-import{j as e}from"./index-DxTAgi0T.js";import{C as a}from"./CodeBlock-B1W5Jxws.js";import"./react-vendor--lVoH5OK.js";import"./syntax-highlighter-BZGa3jO2.js";const d=`# plugins/ETCWorlds/config.yml
+import{j as e}from"./index-DNMFRe0z.js";import{C as a}from"./CodeBlock-l8WS-RyJ.js";import"./react-vendor--lVoH5OK.js";import"./syntax-highlighter-BZGa3jO2.js";const d=`# plugins/ETCWorlds/config.yml
 
 # Carpeta donde viven los mundos creados por ETCWorlds (relativa al server root).
 worlds-folder: mundos

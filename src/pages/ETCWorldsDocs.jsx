@@ -31,6 +31,15 @@ safe-teleport:
   search-radius: 8
   max-y: 320
 
+# PocketWorlds — mundos personales privados por jugador.
+pocketworlds:
+  enabled: true
+  subfolder: pocketworld         # bajo worlds-folder (mundos/pocketworld/<nombre>)
+  border-size: 1000              # diametro del worldborder
+  fly: true
+  fall-damage: false
+  enter-message: "&aBienvenido a tu PocketWorld"
+
 # Mensajes (color codes con &)
 messages:
   prefix: "&8[&bETCWorlds&8] &r"
@@ -109,22 +118,58 @@ const commands = [
   { cmd: '/etcworlds seeds',                  desc: 'Lista presets de seeds curados.' },
   { cmd: '/etcworlds templates',              desc: 'Lista los templates disponibles.' },
   { cmd: '/etcworlds reload',                 desc: 'Recarga config.yml + reglas de cada mundo.' },
+  { cmd: '/etcworlds setspawn',               desc: 'Define el spawn del mundo en el que estás (admin).' },
+  { cmd: '/etcworlds setlobby',               desc: 'Marca el mundo actual como lobby (guardado en config.yml).' },
+  { cmd: '/etcworlds seed [world]',           desc: 'Muestra la seed del mundo (actual o indicado).' },
+  { cmd: '/etcworlds weather <w> <type> [s]', desc: 'Cambia el clima — clear|rain|thunder por N segundos.' },
+  { cmd: '/etcworlds time <w> <type|tick>',   desc: 'Cambia la hora — day|night|noon|midnight o tick raw.' },
+  { cmd: '/etcworlds pvp <w> <on|off>',       desc: 'Atajo para activar/desactivar PvP.' },
+  { cmd: '/etcworlds difficulty <w> <type>',  desc: 'peaceful|easy|normal|hard.' },
+  { cmd: '/etcworlds save <w>',               desc: 'Fuerza world.save() en el hilo correcto (Folia-safe).' },
+  { cmd: '/etcworlds fly <w> <on|off>',       desc: 'Atajo para el flag fly del mundo.' },
+  { cmd: '/etcworlds motd <w> <texto...>',    desc: 'Alias de enter-message del mundo.' },
+  { cmd: '/etcworlds pw [sub...]',            desc: 'Delega al PocketWorldCommand (ver sección PocketWorlds).' },
   { cmd: '/world <name> [x y z]',             desc: 'Alias corto de /etcworlds tp con permiso etcworlds.tp.' },
   { cmd: '/worldlist',                        desc: 'Versión pública compacta de list.' },
   { cmd: '/worldinfo [name]',                 desc: 'Info del mundo actual o el indicado.' },
   { cmd: '/worldspawn',                       desc: 'Teleport al spawn del mundo actual.' },
 ]
 
+const pocketCommands = [
+  { cmd: '/pw',                          desc: 'TP a tu PocketWorld (lo crea automáticamente la primera vez).' },
+  { cmd: '/pw create',                   desc: 'Crea explícitamente tu PocketWorld.' },
+  { cmd: '/pw tp  /pw home',             desc: 'Teleport al tuyo.' },
+  { cmd: '/pw info',                     desc: 'Información: mundo, fecha, jugadores, invitados, border.' },
+  { cmd: '/pw list',                     desc: 'Lista todos los PocketWorlds del servidor.' },
+  { cmd: '/pw invite <jugador>',         desc: 'Da acceso de entrada y construcción.' },
+  { cmd: '/pw kick <jugador>',           desc: 'Quita acceso (y lo expulsa si está dentro).' },
+  { cmd: '/pw useradd <jugador>',        desc: 'Permite a otro editar las rules de tu PocketWorld (también lo invita).' },
+  { cmd: '/pw userremove <jugador>',     desc: 'Quita el permiso de editar rules (no quita el invite).' },
+  { cmd: '/pw visit <jugador>',          desc: 'Va al PocketWorld de otro (si te invitó o tienes bypass).' },
+  { cmd: '/pw setspawn',                 desc: 'Define el spawn dentro de tu PocketWorld.' },
+  { cmd: '/pw rules',                    desc: 'Abre la GUI de flags del PocketWorld donde estás (o el tuyo).' },
+  { cmd: '/pw rules <jugador>',          desc: 'Admin/user: abre la GUI del PW de otro.' },
+  { cmd: '/pw reset confirm',            desc: 'Borra y vuelve a generar el tuyo (vacío).' },
+  { cmd: '/pw delete confirm',           desc: 'Solo borra (sin recrear).' },
+  { cmd: '/pw admin delete <jugador>',   desc: 'Admin: borra el PocketWorld de otro jugador.' },
+]
+
 const perms = [
-  { perm: 'etcworlds.admin',     desc: 'Acceso completo a todos los subcomandos.', def: 'op' },
-  { perm: 'etcworlds.create',    desc: 'Crear / borrar / importar / exportar mundos.',  def: 'op' },
-  { perm: 'etcworlds.load',      desc: 'Cargar / descargar mundos.',                    def: 'op' },
-  { perm: 'etcworlds.set',       desc: 'Cambiar reglas, link, spawn, pregen.',          def: 'op' },
-  { perm: 'etcworlds.template',  desc: 'Marcar plantillas y clonar.',                   def: 'op' },
-  { perm: 'etcworlds.tp',        desc: 'Teleport entre mundos / crear instancias.',     def: 'true' },
-  { perm: 'etcworlds.gui',       desc: 'Abrir la GUI gráfica.',                         def: 'op' },
-  { perm: 'etcworlds.bypass',    desc: 'Saltar whitelist/blacklist por mundo.',         def: 'op' },
-  { perm: 'etcworlds.reload',    desc: 'Recargar configuración.',                       def: 'op' },
+  { perm: 'etcworlds.admin',          desc: 'Acceso completo a todos los subcomandos.', def: 'op' },
+  { perm: 'etcworlds.create',         desc: 'Crear / borrar / importar / exportar mundos.',  def: 'op' },
+  { perm: 'etcworlds.load',           desc: 'Cargar / descargar mundos.',                    def: 'op' },
+  { perm: 'etcworlds.set',            desc: 'Cambiar reglas, link, spawn, pregen.',          def: 'op' },
+  { perm: 'etcworlds.template',       desc: 'Marcar plantillas y clonar.',                   def: 'op' },
+  { perm: 'etcworlds.tp',             desc: 'Teleport entre mundos / crear instancias.',     def: 'true' },
+  { perm: 'etcworlds.gui',            desc: 'Abrir la GUI gráfica.',                         def: 'op' },
+  { perm: 'etcworlds.bypass',         desc: 'Saltar whitelist/blacklist por mundo.',         def: 'op' },
+  { perm: 'etcworlds.reload',         desc: 'Recargar configuración.',                       def: 'op' },
+  { perm: 'etcworlds.pw',             desc: 'Usar /pw (acceso al sistema PocketWorld).',     def: 'true' },
+  { perm: 'etcworlds.pw.create',      desc: 'Crear el propio PocketWorld.',                  def: 'true' },
+  { perm: 'etcworlds.pw.reset',       desc: 'Resetear el propio PocketWorld.',               def: 'true' },
+  { perm: 'etcworlds.pw.visit',       desc: 'Visitar PocketWorlds de otros si te invitaron.', def: 'true' },
+  { perm: 'etcworlds.pw.bypass',      desc: 'Entrar a cualquier PocketWorld sin invitación.', def: 'op' },
+  { perm: 'etcworlds.pw.admin',       desc: 'Administrar PocketWorlds de otros (delete, rules).', def: 'op' },
 ]
 
 const placeholders = [
@@ -307,6 +352,84 @@ export default function ETCWorldsDocs() {
       <p className="text-zinc-400 mb-8">
         El descargador de mundos vacíos libera RAM tras <code>idle-unload.empty-grace-seconds</code>
         sin jugadores; mundos con <code>keep-loaded=true</code> quedan exentos.
+      </p>
+
+      {/* PocketWorlds */}
+      <h2 id="pocketworlds" className="text-2xl font-semibold text-white mb-4">🪐 PocketWorlds (mundos personales)</h2>
+      <p className="text-zinc-400 mb-3">
+        Cada jugador puede tener un mundo propio Void con worldborder. La carpeta vive en
+        <code className="text-brand-400"> mundos/pocketworld/pw_&lt;usuario&gt;_&lt;uuid8&gt;</code>.
+        El nombre es canónico: borrar y recrear nunca produce sufijos <code>_2</code>, <code>_3</code>.
+        En Folia la creación y descarga usan NMS directo (Bukkit no las soporta en runtime).
+      </p>
+      <ul className="list-disc list-inside text-zinc-300 space-y-2 marker:text-brand-400 mb-3">
+        <li><strong className="text-white">Invitee</strong> (<code>/pw invite</code>): puede entrar y construir.</li>
+        <li><strong className="text-white">User</strong> (<code>/pw useradd</code>): además puede editar las
+          rules del PocketWorld (PvP, fly, build, mob-spawn, etc.) desde la GUI.</li>
+        <li><strong className="text-white">Owner / Admin</strong>: control total + flags admin-only
+          (<code>keep-inventory</code>, <code>immediate-respawn</code>).</li>
+      </ul>
+      <p className="text-zinc-400 mb-3">Subcomandos:</p>
+      <div className="overflow-x-auto rounded-lg border border-zinc-700/50 mb-6">
+        <table className="w-full text-sm">
+          <thead className="bg-zinc-800/60 text-zinc-300">
+            <tr><th className="text-left px-3 py-2">Comando</th><th className="text-left px-3 py-2">Función</th></tr>
+          </thead>
+          <tbody className="divide-y divide-zinc-800">
+            {pocketCommands.map(c => (
+              <tr key={c.cmd}>
+                <td className="px-3 py-2 font-mono text-brand-400 whitespace-nowrap">{c.cmd}</td>
+                <td className="px-3 py-2 text-zinc-300">{c.desc}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p className="text-zinc-400 mb-3">
+        El comando <code className="text-brand-400">/pw</code> tiene aliases:
+        <code> /pocketworld</code>, <code> /mundo</code>, <code> /isla</code>.
+      </p>
+      <p className="text-zinc-400 mb-3">
+        Los datos persisten en <code className="text-brand-400">plugins/ETCWorlds/pocketworlds.yml</code>:
+      </p>
+      <CodeBlock language="yaml" code={`pocketworlds:
+  3f4e1a2b-1234-5678-9abc-def012345678:
+    world: pw_juan_3f4e1a2b
+    created: 1737403200000
+    invitees:
+      - 9876fedc-aaaa-bbbb-cccc-1122334455ff   # acceso + build
+    users:
+      - 9876fedc-aaaa-bbbb-cccc-1122334455ff   # ademas puede editar rules
+pending-deletes:
+  - pw_juan_3f4e1a2b_orphan                   # se borrara al proximo arranque`} />
+      <p className="text-zinc-400 mt-3 mb-8">
+        Los borrados que no se completen en runtime quedan listados en
+        <code className="text-brand-400"> pending-deletes</code> y se procesan en el próximo arranque.
+      </p>
+
+      {/* Registry */}
+      <h2 id="registry" className="text-2xl font-semibold text-white mb-4">📒 worlds-registry.yml (categorizado)</h2>
+      <p className="text-zinc-400 mb-3">
+        Todos los mundos gestionados se listan en
+        <code className="text-brand-400"> plugins/ETCWorlds/worlds-registry.yml</code>, agrupados por categoría:
+      </p>
+      <CodeBlock language="yaml" code={`worlds:
+  Nativos:
+    world:
+      folder: world
+    world_nether:
+      folder: world_nether
+    world_the_end:
+      folder: world_the_end
+  Creados:
+    Lobby:
+      folder: mundos/Lobby
+  PocketWorlds:
+    pw_juan_3f4e1a2b:
+      folder: mundos/pocketworld/pw_juan_3f4e1a2b`} />
+      <p className="text-zinc-400 mt-3 mb-8">
+        El formato anterior plano (sin categorías) sigue cargándose y se reescribe en el nuevo
+        formato al primer guardado.
       </p>
 
       {/* Placeholders */}

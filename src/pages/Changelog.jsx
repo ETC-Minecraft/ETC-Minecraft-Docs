@@ -3,6 +3,25 @@ const releases = [
     version: 'Unreleased',
     date: null,
     sections: {
+      Añadido: [
+        'ETCCore: /lobby <jugador> y /spawn <jugador> ejecutables desde consola y desde jugadores con etccore.lobby.others / .spawn.others / .teleport.others',
+        'ETCCore: /tp <p1> <p2> ahora autocompleta jugadores online en el segundo argumento',
+        'ETCWorlds: sistema PocketWorld completo (/pw + aliases /pocketworld /mundo /isla)',
+        'ETCWorlds: /pw useradd / userremove para delegar edición de rules a otros jugadores',
+        'ETCWorlds: GUI de rules (/pw rules) con flags PvP, build, fly, mob-spawn, weather, time, keep-inventory, immediate-respawn',
+        'ETCWorlds: nuevos subcomandos /ecw — seed, weather, time, pvp, difficulty, save, fly, motd, setspawn, setlobby',
+        'ETCWorlds: worlds-registry.yml ahora se categoriza en Nativos / Creados / PocketWorlds',
+        'ETCWorlds: pendientes de borrado persistidos en pocketworlds.yml y procesados al arranque',
+      ],
+      Cambiado: [
+        'ETCWorlds: nombre canónico de PocketWorld pw_<usuario>_<uuid8> (ya no aparecen sufijos _2, _3 al recrear)',
+        'ETCCore: removidas las acciones [WORLD], [SPAWN], [LOBBY] de CustomCommand (usa [CONSOLE] lobby <jugador> o [PLAYER] spawn)',
+      ],
+      Arreglado: [
+        'ETCWorlds (Folia): unload de mundos en runtime vía NMS — antes lanzaba UnsupportedOperationException',
+        'ETCWorlds (Folia): cuelgue ~15s del FoliaWatchdogThread al crear mundos Void (PlayerSpawnFinder ya no busca bloque sólido)',
+        'ETCWorlds: setGameRule en GUI de rules ahora se ejecuta en el global region thread que Folia exige',
+      ],
       'Por agregar': [
         'Soporte SQLite/MySQL para datos de jugadores persistentes',
         'Paginación en menús con más de 54 ítems',

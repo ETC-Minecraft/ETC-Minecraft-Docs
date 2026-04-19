@@ -7,6 +7,7 @@ const ETCCoreHome = lazy(() => import('./pages/ETCCoreHome.jsx'))
 const GettingStarted = lazy(() => import('./pages/GettingStarted.jsx'))
 const Actions = lazy(() => import('./pages/Actions.jsx'))
 const Menus = lazy(() => import('./pages/Menus.jsx'))
+const ETCCoreMenu = lazy(() => import('./pages/ETCCoreMenu.jsx'))
 const Variables = lazy(() => import('./pages/Variables.jsx'))
 const Economy = lazy(() => import('./pages/Economy.jsx'))
 const Scheduled = lazy(() => import('./pages/Scheduled.jsx'))
@@ -41,6 +42,7 @@ export default function App() {
             <Route path="economy" element={<Economy />} />
             <Route path="scheduled" element={<Scheduled />} />
             <Route path="menus" element={<Menus />} />
+            <Route path="menu" element={<ETCCoreMenu />} />
           </Route>
 
           {/* ETCRegionGenerator docs */}

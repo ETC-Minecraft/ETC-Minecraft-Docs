@@ -18,12 +18,13 @@ export const NAV_PAGES = [
   { path: '/etccore/economy',           title: 'Economía (Vault)',            section: 'ETCCore · Comandos YAML', keywords: 'economia vault dinero money give take balance' },
   { path: '/etccore/scheduled',         title: 'Tareas programadas',          section: 'ETCCore · Comandos YAML', keywords: 'scheduled tareas programadas automaticas intervalos cron' },
   { path: '/etccore/menus',             title: 'Menús GUI',                   section: 'ETCCore · Interfaces',    keywords: 'menus gui inventario items slots bedrock geyser' },
+  { path: '/etccore/menu',              title: 'Menú dinámico (/menu)',         section: 'ETCCore · Interfaces',    keywords: 'menu gui dinamico /menu mundos pocketworlds homes warps tpa pvp stats top misiones pvp toggle etcworldsbridge' },
 
   // ETCRegionGenerator
   { path: '/etcregion-generator',       title: 'ETCRegionGenerator',          section: 'ETCRegionGenerator',     keywords: 'region generator folia chunks mca pre-generate concurrent pause resume' },
 
   // ETCWorlds
-  { path: '/etcworlds',                 title: 'ETCWorlds',                   section: 'ETCWorlds',              keywords: 'etcworlds mundos worlds multiverso multiverse skyblock oneblock void plantilla template instance grupo group folia pocketworld pw mundo personal privado seed weather time pvp difficulty fly motd registry nativos creados backup idle unload nms' },
+  { path: '/etcworlds',                 title: 'ETCWorlds',                   section: 'ETCWorlds',              keywords: 'etcworlds mundos worlds multiverso multiverse skyblock oneblock void plantilla template instance grupo group folia pocketworld pw mundo personal privado seed weather time pvp difficulty fly motd registry nativos creados backup idle unload nms displayname display-name nombre visible list vanilla placeholder placeholderapi portal bloqueo menu-visible menuvisible' },
 
   // Tools
   { path: '/playground',                title: '🧪 YAML Playground',         section: 'Herramientas',            keywords: 'playground yaml validador test probar comandos acciones' },

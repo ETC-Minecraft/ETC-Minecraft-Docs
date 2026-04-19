@@ -9,6 +9,7 @@ const features = [
   { icon: '🕐', title: 'Tareas programadas', desc: 'Ejecuta acciones automáticas cada X segundos desde archivos YAML. Disabled by default.' },
   { icon: '🔄', title: 'Auto-reload', desc: 'Detecta cambios en archivos automáticamente. Sin reinicios del servidor.' },
   { icon: '📦', title: 'Folia-compatible', desc: 'Soporte nativo para Paper y Folia 1.21.1+. Scheduler correcto en todos los contextos.' },
+  { icon: '🗂️', title: 'Menú dinámico', desc: 'Menú GUI con /menu: mundos, PocketWorlds, homes, warps, TPA, PvP toggle, estadísticas y top. Sin YAML, actualizado en tiempo real.' },
 ]
 
 export default function ETCCoreHome() {

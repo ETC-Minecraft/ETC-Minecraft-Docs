@@ -80,7 +80,10 @@ blacklist: []
 world-group: skyblock       # comparte inv/xp/gm con otros mundos del mismo grupo
 allowed-commands: []        # vacío = todos; lista = filtro de comandos permitidos
 custom-min-y: -64           # rango personalizado (datapack auto)
-custom-max-y: 320`
+custom-max-y: 320
+display-name: "Sky World"   # nombre amigable para menú y PlaceholderAPI (vacío = usa nombre de carpeta)
+access:
+  menu-visible: true        # aparece en el menú /menu del ETCCore`
 
 const templates = [
   { name: 'NORMAL',           desc: 'Mundo vainilla.' },
@@ -105,10 +108,10 @@ const commands = [
   { cmd: '/etcworlds importzip <zipPath>',    desc: 'Descomprime un .zip y registra el mundo extraído.' },
   { cmd: '/etcworlds export <name> [destZip]',desc: 'Exporta el mundo a .zip (asíncrono).' },
   { cmd: '/etcworlds backup <name>',          desc: 'Snapshot manual rotativo.' },
-  { cmd: '/etcworlds set <name> <prop> <val>',desc: 'Cambia una propiedad (pvp, fly, gamemode, time, weather, border, group, isTemplate, perPlayerInstance, etc.).' },
+  { cmd: '/etcworlds set <name> <prop> <val>',desc: 'Cambia una propiedad. Ver lista completa de propiedades más abajo (pvp, fly, gamemode, display-name, menu-visible, time, weather, border, group, isTemplate, perPlayerInstance, etc.).' },
   { cmd: '/etcworlds link <name> <nether|end> <targetWorld>', desc: 'Enlaza portales nether/end de un mundo a otro.' },
   { cmd: '/etcworlds spawn <name>',           desc: 'Define el spawn del mundo en tu posición actual.' },
-  { cmd: '/etcworlds list',                   desc: 'Lista todos los mundos gestionados.' },
+  { cmd: '/etcworlds list [all|created|pocket|vanilla]', desc: 'Lista mundos. \'created\' solo mundos ETCWorlds, \'pocket\' solo PocketWorlds, \'vanilla\' mundos del servidor no gestionados, \'all\' todos (default).' },
   { cmd: '/etcworlds info <name>',            desc: 'Detalles + reglas + tamaño en disco + jugadores.' },
   { cmd: '/etcworlds tp <name> [x y z]',      desc: 'Teleport con pre-warmup de chunks (Folia-safe).' },
   { cmd: '/etcworlds gui',                    desc: 'Abre la GUI gráfica de gestión.' },
@@ -173,13 +176,20 @@ const perms = [
 ]
 
 const placeholders = [
-  { tag: '%etcworlds_count%',          desc: 'Total de mundos gestionados.' },
-  { tag: '%etcworlds_loaded_count%',   desc: 'Mundos actualmente cargados en memoria.' },
-  { tag: '%etcworlds_world%',          desc: 'Nombre del mundo del jugador.' },
-  { tag: '%etcworlds_template%',       desc: 'Template del mundo actual.' },
-  { tag: '%etcworlds_group%',          desc: 'World group del mundo actual.' },
-  { tag: '%etcworlds_pvp%',            desc: 'true/false según PvP.' },
-  { tag: '%etcworlds_size_<world>%',   desc: 'Tamaño del mundo en disco (formato humano).' },
+  { tag: '%etcworlds_current%',                desc: 'Nombre (folder) del mundo donde está el jugador.' },
+  { tag: '%etcworlds_world_name%',             desc: 'Alias de %etcworlds_current%.' },
+  { tag: '%etcworlds_world_displayname%',      desc: 'DisplayName del mundo actual. Si no tiene uno configurado devuelve el nombre del folder.' },
+  { tag: '%etcworlds_world_template%',         desc: 'Template del mundo actual (NORMAL, SKYBLOCK, VOID…).' },
+  { tag: '%etcworlds_world_pvp%',              desc: 'true/false según el flag pvp del mundo actual.' },
+  { tag: '%etcworlds_world_group%',            desc: 'World-group del mundo actual.' },
+  { tag: '%etcworlds_loaded_count%',           desc: 'Mundos actualmente cargados en memoria.' },
+  { tag: '%etcworlds_managed_count%',          desc: 'Mundos administrados por ETCWorlds.' },
+  { tag: '%etcworlds_displayname_<world>%',    desc: 'DisplayName de un mundo específico. Devuelve el nombre del folder si no tiene displayName.' },
+  { tag: '%etcworlds_template_<world>%',       desc: 'Template de un mundo específico.' },
+  { tag: '%etcworlds_spawn_<world>%',          desc: 'Coordenadas de spawn "x,y,z" de un mundo.' },
+  { tag: '%etcworlds_pvp_<world>%',            desc: 'true/false del flag pvp de un mundo específico.' },
+  { tag: '%etcworlds_group_<world>%',          desc: 'World-group de un mundo específico.' },
+  { tag: '%etcworlds_player_count_<world>%',   desc: 'Jugadores actualmente en el mundo.' },
 ]
 
 export default function ETCWorldsDocs() {
@@ -389,6 +399,19 @@ export default function ETCWorldsDocs() {
         El comando <code className="text-brand-400">/pw</code> tiene aliases:
         <code> /pocketworld</code>, <code> /mundo</code>, <code> /isla</code>.
       </p>
+
+      {/* Portal blocking */}
+      <div className="mt-2 mb-5 p-4 rounded-lg bg-zinc-800/40 border border-zinc-700/50 text-sm text-zinc-300">
+        <strong className="text-white">🚫 Portales bloqueados en PocketWorlds</strong>
+        <p className="mt-1 text-zinc-400">
+          Los portales de Nether, End y End Gateway están deshabilitados dentro de los PocketWorlds.
+          Si el jugador entra al área del portal, la animación se muestra mientras esté dentro, pero
+          el teletransporte nunca se ejecuta. Al salir del área el comportamiento vuelve a ser normal.
+          Esta protección evita que los jugadores creen accidentalmente dimensiones ligadas o salgan
+          de su isla mediante portales.
+        </p>
+      </div>
+
       <p className="text-zinc-400 mb-3">
         Los datos persisten en <code className="text-brand-400">plugins/ETCWorlds/pocketworlds.yml</code>:
       </p>
@@ -406,6 +429,36 @@ pending-deletes:
         Los borrados que no se completen en runtime quedan listados en
         <code className="text-brand-400"> pending-deletes</code> y se procesan en el próximo arranque.
       </p>
+
+      {/* Display Name */}
+      <h2 id="displayname" className="text-2xl font-semibold text-white mt-10 mb-4">🏷️ Nombre visible (display-name)</h2>
+      <p className="text-zinc-400 mb-3">
+        Cada mundo puede tener un nombre amigable independiente de su nombre de carpeta.
+        Se muestra en <code className="text-brand-400">/ecw list</code>, en el menú GUI de ETCCore
+        y en los placeholders de PlaceholderAPI.
+      </p>
+      <CodeBlock language="bash" code={`# Asignar nombre (multi-palabra permitida):
+/etcworlds set survival display-name Survival Vanilla
+/etcworlds set lobby display-name &b&lLobby
+
+# Limpiar nombre (volver al nombre de carpeta):
+/etcworlds set lobby display-name`} />
+      <p className="text-zinc-400 mt-3 mb-3 text-sm">
+        También puede editarse directamente en <code>etcworlds.yml</code> del mundo y recargar:
+      </p>
+      <CodeBlock language="yaml" code={`# mundos/survival/etcworlds.yml
+display-name: "Survival Vanilla"`} />
+      <p className="text-zinc-400 mt-3 mb-3">
+        Uso en <strong className="text-zinc-200">PlaceholderAPI</strong> (no requiere descarga desde ecloud, ETCWorlds registra su expansión automáticamente):
+      </p>
+      <CodeBlock language="bash" code={`# Prefijo de chat con el nombre del mundo actual:
+/lp group default meta setprefix 100 "&8[&f%etcworlds_world_displayname%&8] "
+
+# En un scoreboard:
+%etcworlds_world_displayname%
+
+# Nombre de un mundo concreto:
+%etcworlds_displayname_survival%`} />
 
       {/* Registry */}
       <h2 id="registry" className="text-2xl font-semibold text-white mb-4">📒 worlds-registry.yml (categorizado)</h2>

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 function NavItem({ to, label, end = false, indent = false }) {
   return (
@@ -17,6 +17,42 @@ function NavItem({ to, label, end = false, indent = false }) {
       >
         {label}
       </NavLink>
+    </li>
+  )
+}
+
+function AnchorNavItem({ to, hash, label, indent = false }) {
+  const { pathname, hash: currentHash } = useLocation()
+  const navigate = useNavigate()
+  const isActive = pathname === to && currentHash === hash
+
+  const handleClick = () => {
+    const id = hash.slice(1)
+    if (pathname !== to) {
+      navigate(to + hash)
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 150)
+    } else {
+      window.history.replaceState(null, '', to + hash)
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
+  return (
+    <li>
+      <button
+        onClick={handleClick}
+        className={
+          `block text-sm py-1 transition-colors border-l border-transparent w-full text-left ` +
+          (indent ? 'pl-5 ' : 'pl-2 ') +
+          (isActive
+            ? 'text-brand-400 border-brand-400 font-semibold'
+            : 'text-zinc-400 hover:text-white hover:border-zinc-600')
+        }
+      >
+        {label}
+      </button>
     </li>
   )
 }
@@ -120,14 +156,14 @@ export function SidebarContent({ onNavigate }) {
         <div onClick={nav}>
           <NavItem to="/etcworlds" label="Documentación" end />
           <SubHeader>Secciones</SubHeader>
-          <NavItem to="/etcworlds#templates"   label="Templates"           indent />
-          <NavItem to="/etcworlds#comandos"    label="Comandos"            indent />
-          <NavItem to="/etcworlds#permisos"    label="Permisos"            indent />
-          <NavItem to="/etcworlds#config"      label="config.yml"          indent />
-          <NavItem to="/etcworlds#reglas"      label="Reglas por mundo"    indent />
-          <NavItem to="/etcworlds#groups"      label="World Groups"        indent />
-          <NavItem to="/etcworlds#pocketworlds" label="PocketWorlds"       indent />
-          <NavItem to="/etcworlds#registry"    label="Registry"            indent />
+          <AnchorNavItem to="/etcworlds" hash="#templates"    label="Templates"        indent />
+          <AnchorNavItem to="/etcworlds" hash="#comandos"     label="Comandos"         indent />
+          <AnchorNavItem to="/etcworlds" hash="#permisos"     label="Permisos"         indent />
+          <AnchorNavItem to="/etcworlds" hash="#config"       label="config.yml"       indent />
+          <AnchorNavItem to="/etcworlds" hash="#reglas"       label="Reglas por mundo" indent />
+          <AnchorNavItem to="/etcworlds" hash="#groups"       label="World Groups"     indent />
+          <AnchorNavItem to="/etcworlds" hash="#pocketworlds" label="PocketWorlds"     indent />
+          <AnchorNavItem to="/etcworlds" hash="#registry"     label="Registry"         indent />
         </div>
       </CollapsibleSection>
 

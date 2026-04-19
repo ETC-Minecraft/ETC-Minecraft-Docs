@@ -84,6 +84,54 @@ const worldsBridgeNote = `# ETCCore se comunica con ETCWorlds por reflexión (si
 # Si ETCWorlds no está instalado, las secciones "Mundos" y "PocketWorlds"
 # simplemente muestran un mensaje de "plugin no disponible" en lugar de fallar.`
 
+const commandsMenuYml = `# plugins/ETCCore/commands/menu.yml
+commands:
+  menu:
+    description: "Abre el menu principal del servidor"
+    aliases: [m, etcmenu, menus]
+    permission: ""
+    no-permission-message: "&cNo tienes permiso para usar este comando."
+    console-allowed: false
+    actions:
+      - "[MENU] menu"`
+
+const menusMenuYml = `# plugins/ETCCore/menus/menu.yml (extracto)
+title: "&8» &b&lMenú Principal"
+rows: 4
+permission: "etccore.menu"
+items:
+  10:
+    material: GRASS_BLOCK
+    name: "&a&lMundos"
+    actions:
+      - "[ETCMENU] mundos"
+  12:
+    material: ENDER_PEARL
+    name: "&d&lPocketWorlds"
+    actions:
+      - "[ETCMENU] pocketworlds"
+  14:
+    material: DIAMOND_SWORD
+    name: "&c&lPvP"
+    close-on-click: true
+    actions:
+      - "[ETCMENU] pvp"
+  35:
+    material: BARRIER
+    name: "&c&lCerrar"
+    actions:
+      - "[CLOSE]"`
+
+const etcMenuActionDoc = `# Tipos validos para [ETCMENU] tipo:
+#   mundos / worlds         -> WorldsMenu (lista de mundos)
+#   pocketworlds / pw       -> PocketWorldsMenu
+#   homes / home            -> HomesMenu
+#   warps / warp            -> WarpsMenu
+#   tpa / requests          -> Solicitudes TPA pendientes
+#   stats / estadisticas    -> StatsMenu
+#   top                     -> TopMenu (ranking de playtime)
+#   pvp                     -> Toggle PvP del propio jugador (sin GUI)`
+
 export default function ETCCoreMenu() {
   return (
     <div>
@@ -99,12 +147,47 @@ export default function ETCCoreMenu() {
           Se abre con <code className="text-brand-400">/menu</code> y agrupa en un solo lugar
           las funciones más usadas del servidor: mundos, homes, warps, TPA, PvP y más.
         </p>
+        <div className="p-4 rounded-lg bg-emerald-900/20 border border-emerald-700/40 text-emerald-200 text-sm mb-6">
+          <strong>✨ 100% editable desde YAML:</strong> tanto el comando{' '}
+          <code className="text-emerald-300">/menu</code> como el menú principal viven en archivos
+          YAML que puedes modificar sin recompilar el plugin. Solo los <em>submenús internos</em>{' '}
+          (mundos, homes, etc) son dinámicos en código y se invocan con la nueva acción{' '}
+          <code className="text-emerald-300">[ETCMENU] tipo</code>.
+        </div>
         <div className="p-4 rounded-lg bg-amber-900/20 border border-amber-700/40 text-amber-200 text-sm mb-6">
-          <strong>⚠️ Diferencia clave:</strong> Este menú no es el mismo que los menús en{' '}
-          <code>plugins/ETCCore/menus/</code>. Es un menú <em>en código</em> que se actualiza
-          automáticamente cada vez que se abre — no necesita archivos YAML ni recargas.
+          <strong>⚠️ Diferencia clave:</strong> Los <em>submenús</em> (mundos, pocketworlds, homes,
+          warps, tpa, stats, top) son dinámicos en código y se actualizan en cada apertura. El{' '}
+          <em>menú principal</em> y el <em>comando</em> son configurables como cualquier otro
+          menú/comando YAML del plugin.
         </div>
       </div>
+
+      {/* YAML Configuration */}
+      <h2 id="configuracion-yaml" className="text-2xl font-semibold text-white mb-4">📝 Configuración YAML</h2>
+      <p className="text-zinc-400 mb-3 text-sm">
+        El comando <code className="text-brand-400">/menu</code> se registra dinámicamente desde{' '}
+        <code className="text-brand-400">commands/menu.yml</code> y abre el menú{' '}
+        <code className="text-brand-400">menus/menu.yml</code>. Puedes editar título, items, slots,
+        permisos, sonidos y acciones sin tocar código Java.
+      </p>
+      <h3 className="text-lg font-semibold text-white mb-2">commands/menu.yml</h3>
+      <CodeBlock language="yaml" code={commandsMenuYml} />
+      <h3 className="text-lg font-semibold text-white mt-4 mb-2">menus/menu.yml</h3>
+      <CodeBlock language="yaml" code={menusMenuYml} />
+
+      {/* New action */}
+      <h2 id="accion-etcmenu" className="text-2xl font-semibold text-white mt-10 mb-4">🎯 Acción <code className="text-brand-400">[ETCMENU]</code></h2>
+      <p className="text-zinc-400 mb-3 text-sm">
+        Nueva acción disponible en cualquier menú o comando YAML del plugin. Abre uno de los
+        submenús internos (que necesitan código Java por su lógica dinámica) sin tener que
+        ejecutar otro comando intermedio.
+      </p>
+      <CodeBlock language="yaml" code={etcMenuActionDoc} />
+      <p className="text-zinc-400 mt-3 mb-8 text-sm">
+        Ejemplo: para añadir un botón de “Mis Homes” en cualquier otro menú YAML basta con
+        añadir <code className="text-brand-400">- "[ETCMENU] homes"</code> en sus acciones.
+      </p>
+
 
       {/* Command */}
       <h2 id="comando" className="text-2xl font-semibold text-white mb-4">📟 Comando</h2>
@@ -243,11 +326,12 @@ export default function ETCCoreMenu() {
       {/* Implementation note */}
       <h2 id="implementacion" className="text-2xl font-semibold text-white mb-4">🛠️ Detalles técnicos</h2>
       <p className="text-zinc-400 mb-3 text-sm">
-        Todos los menús extienden la clase base <code className="text-brand-400">EtcMenu</code> que
+        Los submenús extienden la clase base <code className="text-brand-400">EtcMenu</code> que
         implementa <code>InventoryHolder</code>. Un único <code className="text-brand-400">MenuListener</code>
-        maneja todos los clicks detectando el holder — sin mapas globales de jugadores.
-        Cada submenú es una clase independiente que reconstruye el inventario dinámicamente en cada
-        apertura o refresco.
+        maneja todos los clicks detectando el holder. La acción{' '}
+        <code className="text-brand-400">[ETCMENU] tipo</code> es interpretada por{' '}
+        <code className="text-brand-400">CustomCommand</code> y delega en{' '}
+        <code className="text-brand-400">EtcMenuOpener</code>.
       </p>
       <ul className="list-disc list-inside text-zinc-300 space-y-1 marker:text-brand-400 mb-8 text-sm">
         <li>Los mundos y pocketworlds se consultan en tiempo real — nuevos mundos aparecen sin recargar.</li>

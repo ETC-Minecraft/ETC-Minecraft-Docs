@@ -1,4 +1,4 @@
-import{j as e}from"./index-DArFSGYo.js";import{C as s}from"./CodeBlock-Dhaq0QrE.js";import"./react-vendor--lVoH5OK.js";import"./syntax-highlighter-BZGa3jO2.js";const c=`
+import{j as e}from"./index-rxMQItFQ.js";import{C as s}from"./CodeBlock-OWhcpHmf.js";import"./react-vendor--lVoH5OK.js";import"./syntax-highlighter-BZGa3jO2.js";const c=`
 # commands/scheduled/avisos.yml
 # Envía un mensaje automático cada 30 minutos
 

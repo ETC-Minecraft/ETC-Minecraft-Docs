@@ -31,6 +31,19 @@ const projects = [
     featured: true,
   },
   {
+    name: 'ETCWorlds',
+    status: 'Activo',
+    category: 'Plugins',
+    type: 'Plugin · Paper / Folia',
+    description:
+      'Gestión completa de mundos: 11 templates (Void, Skyblock, OneBlock, Islas Flotantes, Custom Height…), world-groups con inventario compartido, instancias por jugador, PocketWorlds (mundos personales privados), enlaces de dimensión, backups rotativos asíncronos, GUI y bridge con ETCRegionGenerator. Folia-nativo.',
+    repo: 'https://github.com/ETC-Minecraft/ETCWorlds',
+    docs: '/etcworlds',
+    badge: '🌍',
+    tags: ['Java 21+', 'Paper', 'Folia', 'NMS', 'Multiworld'],
+    featured: true,
+  },
+  {
     name: 'ETC-Minecraft Docs',
     status: 'Activo',
     category: 'Herramientas',

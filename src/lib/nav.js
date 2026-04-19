@@ -23,7 +23,7 @@ export const NAV_PAGES = [
   { path: '/etcregion-generator',       title: 'ETCRegionGenerator',          section: 'ETCRegionGenerator',     keywords: 'region generator folia chunks mca pre-generate concurrent pause resume' },
 
   // ETCWorlds
-  { path: '/etcworlds',                 title: 'ETCWorlds',                   section: 'ETCWorlds',              keywords: 'etcworlds mundos worlds multiverso multiverse skyblock oneblock void plantilla template instance grupo group folia' },
+  { path: '/etcworlds',                 title: 'ETCWorlds',                   section: 'ETCWorlds',              keywords: 'etcworlds mundos worlds multiverso multiverse skyblock oneblock void plantilla template instance grupo group folia pocketworld pw mundo personal privado seed weather time pvp difficulty fly motd registry nativos creados backup idle unload nms' },
 
   // Tools
   { path: '/playground',                title: '🧪 YAML Playground',         section: 'Herramientas',            keywords: 'playground yaml validador test probar comandos acciones' },

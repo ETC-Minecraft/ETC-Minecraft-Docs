@@ -115,6 +115,24 @@ export function SidebarContent({ onNavigate }) {
 
       <div className="border-t border-zinc-800/60 my-4" />
 
+      {/* ETCWorlds */}
+      <CollapsibleSection badge="🌍" title="ETCWorlds" prefix="/etcworlds">
+        <div onClick={nav}>
+          <NavItem to="/etcworlds" label="Documentación" end />
+          <SubHeader>Secciones</SubHeader>
+          <NavItem to="/etcworlds#templates"   label="Templates"           indent />
+          <NavItem to="/etcworlds#comandos"    label="Comandos"            indent />
+          <NavItem to="/etcworlds#permisos"    label="Permisos"            indent />
+          <NavItem to="/etcworlds#config"      label="config.yml"          indent />
+          <NavItem to="/etcworlds#reglas"      label="Reglas por mundo"    indent />
+          <NavItem to="/etcworlds#groups"      label="World Groups"        indent />
+          <NavItem to="/etcworlds#pocketworlds" label="PocketWorlds"       indent />
+          <NavItem to="/etcworlds#registry"    label="Registry"            indent />
+        </div>
+      </CollapsibleSection>
+
+      <div className="border-t border-zinc-800/60 my-4" />
+
       {/* Coming soon */}
       <div className="mb-6">
         <p className="text-xs font-semibold uppercase tracking-widest text-zinc-600 mb-2">Próximamente</p>

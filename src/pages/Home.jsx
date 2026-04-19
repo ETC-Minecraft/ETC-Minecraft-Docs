@@ -18,7 +18,15 @@ const projects = [
     status: 'Activo',
   },
   {
-    badge: '🎨',
+    badge: '�',
+    name: 'ETCWorlds',
+    type: 'Plugin · Paper / Folia',
+    desc: 'Gestión de múltiples mundos: templates (Void, Skyblock, OneBlock…), world-groups, instancias por jugador, PocketWorlds, backups rotativos y más.',
+    to: '/etcworlds',
+    status: 'Activo',
+  },
+  {
+    badge: '�🎨',
     name: 'ETC-ResourcePack',
     type: 'Resource Pack · Java Edition',
     desc: 'Íconos, texturas custom y HUD personalizado para integración con ETCCore.',

@@ -1,4 +1,4 @@
-import{j as e}from"./index-rxMQItFQ.js";import{C as a}from"./CodeBlock-OWhcpHmf.js";import"./react-vendor--lVoH5OK.js";import"./syntax-highlighter-BZGa3jO2.js";const r=`
+import{j as e}from"./index-DxTAgi0T.js";import{C as a}from"./CodeBlock-B1W5Jxws.js";import"./react-vendor--lVoH5OK.js";import"./syntax-highlighter-BZGa3jO2.js";const r=`
 actions:
   # Asignar un valor
   - "[VAR:SET] puntos = 0"
